@@ -37,4 +37,4 @@ gradle
 *.bat
 gradlew
 *.properties
-*DS_Store
+.DS_Store
