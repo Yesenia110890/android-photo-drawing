@@ -12,8 +12,12 @@
     tools:context="com.flor.photodrawing.PhotoActivity"
     tools:showIn="@layout/activity_photo">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
+    <it.sephiroth.android.library.imagezoom.ImageViewTouch
+        android:id="@+id/imv_photo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/medium"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"/>
+
 </RelativeLayout>
