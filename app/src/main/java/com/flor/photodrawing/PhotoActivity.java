@@ -1,3 +1,4 @@
+
 package com.flor.photodrawing;
 
 import android.content.Intent;
@@ -9,10 +10,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -20,12 +17,13 @@ import butterknife.OnClick;
 import it.sephiroth.android.library.imagezoom.ImageViewTouch;
 
 public class PhotoActivity extends AppCompatActivity {
+    static final int REQUEST_IMAGE_CAPTURE = 1;
 
     @Bind(R.id.save)
     FloatingActionButton fabSave;
 
     @Bind(R.id.imv_photo)
-    ImageViewTouch imvPhoto;
+    TouchImageView imvPhoto;
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -56,15 +54,19 @@ public class PhotoActivity extends AppCompatActivity {
     @OnClick(R.id.photo)
     public void drawingPhoto(View v) {
         Intent camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(camera, 0);
+        startActivityForResult(camera, REQUEST_IMAGE_CAPTURE);
+
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         try {
             Bitmap mBitmap = (Bitmap) data.getExtras().get("data");
+
             imvPhoto.setImageBitmap(mBitmap);
+            imvPhoto.setMaxZoom(4f);
 
         } catch (NullPointerException e) {
 
