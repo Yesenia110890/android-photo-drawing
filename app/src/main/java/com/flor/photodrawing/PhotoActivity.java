@@ -17,14 +17,21 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.flor.photodrawing.model.Photo;
+import com.flor.photodrawing.utils.Util;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTouch;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import io.realm.RealmResults;
 import it.sephiroth.android.library.imagezoom.ImageViewTouch;
 
 public class PhotoActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    private Realm realm;
 
     private static Bitmap bmOriginal;
 
@@ -50,6 +57,18 @@ public class PhotoActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        // Create a RealmConfiguration which is to locate Realm file in package's "files" directory.
+        RealmConfiguration realmConfig = new RealmConfiguration.Builder(this).build();
+        // Get a Realm instance for this thread
+        realm = Realm.getInstance(realmConfig);
+
+        RealmResults<Photo> results = realm.where(Photo.class).findAll();
+
+        if (results.size() != 0) {
+            Bitmap savedBitmapPhoto = Util.toBitmap(results.get(0).getImage());
+            imvPhoto.setImageBitmap(savedBitmapPhoto);
+        }
+
         bmOriginal = ((BitmapDrawable) imvPhoto.getDrawable()).getBitmap();
 
         setSupportActionBar(toolbar);
@@ -59,8 +78,7 @@ public class PhotoActivity extends AppCompatActivity {
 
     @OnClick(R.id.save)
     public void savePhoto(View v) {
-        Snackbar.make(v, "Save", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+        saveCurrentImage();
     }
 
     @OnClick(R.id.photo)
@@ -112,8 +130,10 @@ public class PhotoActivity extends AppCompatActivity {
     private void isValidPattern(int patternValue) {
         if (pattern == 2){
             drawRectangleOverImage();
+            fabSave.setEnabled(true);
         } else if(pattern == 3){
             removeRectangle();
+            fabSave.setEnabled(false);
             pattern = 0;
         }
     }
@@ -147,5 +167,22 @@ public class PhotoActivity extends AppCompatActivity {
 
     private void removeRectangle(){
         imvPhoto.setImageDrawable(new BitmapDrawable(getResources(), bmOriginal));
+    }
+
+    private void saveCurrentImage() {
+        Bitmap currentBitmap = Util.viewToBitmap(imvPhoto);
+        String currentBitmapString = Util.toString(currentBitmap);
+
+        Photo currentPhoto = new Photo();
+        currentPhoto.setImage(currentBitmapString);
+
+        RealmResults<Photo> results = realm.where(Photo.class).findAll();
+        realm.beginTransaction();
+        results.clear();
+        realm.commitTransaction();
+
+        realm.beginTransaction();
+        realm.copyToRealm(currentPhoto);
+        realm.commitTransaction();
     }
 }
