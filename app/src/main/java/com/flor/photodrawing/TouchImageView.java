@@ -16,16 +16,17 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.ImageView;
 
+/**
+ * Provides a custom ImageView to pan and zoom over it.
+ */
 public class TouchImageView extends ImageView {
     Matrix matrix;
-    // We can be in one of these 3 states
     static final int NONE = 0;
     static final int DRAG = 1;
     static final int ZOOM = 2;
 
     int mode = NONE;
 
-    // Remember some things for zooming
     PointF last = new PointF();
     PointF start = new PointF();
     float minScale = 1f;

@@ -2,7 +2,6 @@
 package com.flor.photodrawing;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -14,8 +13,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 
 import com.flor.photodrawing.model.Photo;
@@ -24,12 +21,18 @@ import com.flor.photodrawing.utils.Util;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnTouch;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
-import it.sephiroth.android.library.imagezoom.ImageViewTouch;
 
+/**
+ * Provides the functionality to take a picture from the camera and then draws a rectangle
+ * over the picture.
+ *
+ * @author  Yesenia Isabel Latorre Flor
+ *          Android Developer
+ *          yesenia.120990@gmail.com
+ */
 public class PhotoActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private Realm realm;
@@ -51,16 +54,17 @@ public class PhotoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo);
+
         initProperties();
     }
 
+    /**
+     * Initializes the properties of the activity.
+     */
     public void initProperties() {
-
         ButterKnife.bind(this);
 
-        // Create a RealmConfiguration which is to locate Realm file in package's "files" directory.
         RealmConfiguration realmConfig = new RealmConfiguration.Builder(this).build();
-        // Get a Realm instance for this thread
         realm = Realm.getInstance(realmConfig);
 
         RealmResults<Photo> results = realm.where(Photo.class).findAll();
@@ -120,6 +124,9 @@ public class PhotoActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         pattern = 0;
+        fabSave.setVisibility(View.GONE);
+
+
         try {
             Bitmap mBitmap = (Bitmap) data.getExtras().get("data");
 
@@ -131,6 +138,13 @@ public class PhotoActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Validates the integer sent as argument.
+     * The function to draw a rectangle follows a pattern, if the <code>patternValue</code>
+     * is valid, the rectangle is drawn or erased.
+     *
+     * @param patternValue The pattern value to validate.
+     */
     private void isValidPattern(int patternValue) {
         if (pattern == 2){
             drawRectangleOverImage();
@@ -142,6 +156,9 @@ public class PhotoActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Draws a rectangle over the ImageView, which contains the taken picture.
+     */
     private void drawRectangleOverImage() {
         bmOriginal = ((BitmapDrawable) imvPhoto.getDrawable()).getBitmap();
 
@@ -173,6 +190,9 @@ public class PhotoActivity extends AppCompatActivity {
         imvPhoto.setImageDrawable(new BitmapDrawable(getResources(), bmOriginal));
     }
 
+    /**
+     * Saves the current image in the ImageView into Realm.
+     */
     private void saveCurrentImage() {
         Bitmap currentBitmap = Util.viewToBitmap(imvPhoto);
         String currentBitmapString = Util.toString(currentBitmap);
