@@ -2,6 +2,7 @@
 package com.flor.photodrawing;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -72,13 +73,16 @@ public class PhotoActivity extends AppCompatActivity {
         bmOriginal = ((BitmapDrawable) imvPhoto.getDrawable()).getBitmap();
 
         setSupportActionBar(toolbar);
-        fabSave.setEnabled(false);
+        fabSave.setVisibility(View.GONE);
 
     }
 
     @OnClick(R.id.save)
     public void savePhoto(View v) {
         saveCurrentImage();
+
+        Snackbar.make(v, "Photo saved to this device", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
 
     @OnClick(R.id.photo)
@@ -130,10 +134,10 @@ public class PhotoActivity extends AppCompatActivity {
     private void isValidPattern(int patternValue) {
         if (pattern == 2){
             drawRectangleOverImage();
-            fabSave.setEnabled(true);
+            fabSave.setVisibility(View.VISIBLE);
         } else if(pattern == 3){
             removeRectangle();
-            fabSave.setEnabled(false);
+            fabSave.setVisibility(View.GONE);
             pattern = 0;
         }
     }
