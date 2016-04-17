@@ -9,11 +9,14 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTouch;
 import it.sephiroth.android.library.imagezoom.ImageViewTouch;
 
 public class PhotoActivity extends AppCompatActivity {
@@ -56,6 +59,12 @@ public class PhotoActivity extends AppCompatActivity {
         Intent camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(camera, REQUEST_IMAGE_CAPTURE);
 
+    }
+
+    @OnTouch(R.id.imv_photo)
+    public boolean touchPicture(MotionEvent event) {
+        Log.e("** [Pic]", String.valueOf(event.getX()) + " x " + String.valueOf(event.getY()) + " y");
+        return true;
     }
 
     @Override
