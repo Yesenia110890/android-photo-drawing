@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 23
@@ -35,4 +36,5 @@ dependencies {
     compile 'com.alexvasilkov:gesture-views:2.1.1'
     compile 'com.alexvasilkov:android-commons:1.2.4'
     compile 'com.alexvasilkov:events:0.5.0-beta-1'
+
 }
