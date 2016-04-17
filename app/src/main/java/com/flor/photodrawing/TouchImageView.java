@@ -1,8 +1,13 @@
 package com.flor.photodrawing;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.PointF;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -297,8 +302,6 @@ public class TouchImageView extends ImageView {
             int bmWidth = drawable.getIntrinsicWidth();
 
             int bmHeight = drawable.getIntrinsicHeight();
-
-            Log.d("bmSize", "bmWidth: " + bmWidth + " bmHeight : " + bmHeight);
 
             float scaleX = (float) viewWidth / (float) bmWidth;
 

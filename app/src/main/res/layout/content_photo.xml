@@ -8,25 +8,41 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:layout_marginBottom="50dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.flor.photodrawing.PhotoActivity"
     tools:showIn="@layout/activity_photo">
 
     <com.flor.photodrawing.TouchImageView
         android:id="@+id/imv_photo"
-        android:layout_width="700sp"
-        android:layout_height="800sp"
-        android:layout_marginBottom="@dimen/medium"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:adjustViewBounds="true"
-        android:scaleType="fitCenter" />
-    <!--
-    <it.sephiroth.android.library.imagezoom.ImageViewTouch
-        android:id="@+id/imv_photo"
-        android:layout_width="700sp"
-        android:layout_height="800sp"
-        android:layout_marginBottom="@dimen/medium"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"/>
-        -->
+        android:scaleType="fitCenter"
+        android:src="@drawable/camera"/>
+
+    <View
+        android:id="@+id/touch_left_top"
+        android:layout_width="@dimen/high"
+        android:layout_height="@dimen/high"/>
+
+    <View
+        android:id="@+id/touch_right_top"
+        android:layout_width="@dimen/high"
+        android:layout_height="@dimen/high"
+        android:layout_alignParentRight="true"/>
+
+    <View
+        android:id="@+id/touch_left_bottom"
+        android:layout_width="@dimen/high"
+        android:layout_height="@dimen/high"
+        android:layout_alignParentBottom="true"/>
+
+    <View
+        android:id="@+id/touch_right_bottom"
+        android:layout_width="@dimen/high"
+        android:layout_height="@dimen/high"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"/>
 
 </RelativeLayout>
